@@ -16,8 +16,7 @@ class stock():
     def run(self):
         print('왜 이게 되지?')
         print('나는 뭐 한게 없는데 ?')
-        self.create()
-        self.say_ho(10)
+
     def _check_time(self):
         '''
         check time func
@@ -100,14 +99,16 @@ class stock():
                 break
         전기준 = 기준
         호가갭 = self.list_호가_갭[i - 1]
-        VI_UP = VI_UP - VI_UP % 호가갭
+        # VI_UP = VI_UP - VI_UP % 호가갭
+        VI_UP = VI_UP - VI_UP % 호가갭 + 호가갭 # 상한가 계산과 다르게 호가갭 만큼 더해야함
 
         for i, 기준 in enumerate(self.list_호가_기준):
             if VI_DOWN < 기준:
                 break
         전기준 = 기준
         호가갭 = self.list_호가_갭[i - 1]
-        VI_DOWN = VI_DOWN - VI_DOWN % 호가갭 + 호가갭
+        VI_DOWN = VI_DOWN - VI_DOWN % 호가갭 # 하한가 계산과 다르게 호가갭 만큼 더하지 않음
+        # VI_DOWN = VI_DOWN - VI_DOWN % 호가갭 + 호가갭
 
         return int(VI_UP), int(VI_DOWN)
 
@@ -118,7 +119,14 @@ class stock():
 
 
 if __name__ == "__main__":
-    st = stock()
 
-    st.run()
+    st = stock()
+    기준가 = 187400
+    상한가, 하한가 = st.fun_find_상하한가(기준가)
+    print(상한가, 하한가)
+    dict_호가 = st.fun_dict_호가(기준가)
+    VI_UP, VI_DOWN = st.cal_VI(기준가,기준가,dict_호가)
+    print(VI_UP,VI_DOWN)
+    # st.run()
+
 
